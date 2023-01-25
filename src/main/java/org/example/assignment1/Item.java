@@ -1,6 +1,6 @@
 package org.example.assignment1;
 
-public class Item {
+public class Item{
     String name;
     double price;
     int quantity;
@@ -23,14 +23,14 @@ public class Item {
         }
         else if(this.type == "manufactured"){
             tax = (0.125 * this.price);
-            tax += (0.02 * tax);
+            tax += (0.02 * (tax + this.price));
         }
         else{
             double surcharge = 0;
             double importDuty = 0;
             tax = (0.125 * this.price);
             importDuty = 0.10 * this.price;
-            double temp = tax + importDuty;
+            double temp = tax + importDuty + this.price;
             if(temp <= 100){
                 surcharge = 5;
             }
@@ -40,9 +40,9 @@ public class Item {
             if(temp > 200){
                 surcharge = 0.05 * temp;
             }
-            tax = surcharge + temp;
+            tax = surcharge + temp - this.price;
         }
-        return tax;
+        return Math.round(tax * 1000) / 1000.0;
     }
 
     void calculateTotal(){
