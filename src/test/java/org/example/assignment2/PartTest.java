@@ -1,6 +1,8 @@
 package org.example.assignment2;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -8,6 +10,7 @@ import java.io.InputStream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
+@ExtendWith(MockitoExtension.class)
 class PartTest {
 
     @Test

@@ -5,10 +5,9 @@ import java.util.*;
 
 public class Part {
     static ArrayList<User> user;
+    static  Set<Integer> rollset;
 
-
-    static void takeInput(Set<Integer> rollset){
-
+    static String takeInput(){
         Scanner sc = new Scanner(System.in);
         String name, address;
         int rollno, age;
@@ -54,7 +53,7 @@ public class Part {
         else{
             System.out.println("User already exists\n");;
         }
-        return;
+        return name;
 
     }
 
@@ -171,13 +170,12 @@ public class Part {
         Scanner sc = new Scanner(System.in);
         rollset = new HashSet<Integer>();
         user = new ArrayList<User>();
-        Set<Integer> rollset = new HashSet<>();
         while(true){
             System.out.println("1.Add user details\n2.Display user details\n3.Delete user details\n4.Save user details\n5.Exit\n");
             System.out.print("Choose an option : ");
             int option = sc.nextInt();
             if(option == 1){
-                takeInput(rollset);
+                takeInput();
             }
             if(option == 2){
                 displayUser();
