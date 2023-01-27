@@ -7,7 +7,7 @@ public class Part {
     static ArrayList<User> user;
     static Set<Integer> rollset;
 
-    static void takeInput(){
+    static String takeInput(){
         Scanner sc = new Scanner(System.in);
         String name, address;
         int rollno, age;
@@ -42,7 +42,9 @@ public class Part {
             courses.add(c);
         }
         System.out.println("courses added");
+
         if(!rollset.contains(rollno)){
+            System.out.println("here i am");
             User u = new User(name, age, address, rollno, courses);
             user.add(u);
             rollset.add(rollno);
@@ -51,7 +53,7 @@ public class Part {
         else{
             System.out.println("User already exists\n");;
         }
-        return;
+        return name;
 
     }
 
