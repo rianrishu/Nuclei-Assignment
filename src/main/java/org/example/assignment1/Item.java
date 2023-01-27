@@ -1,57 +1,61 @@
 package org.example.assignment1;
 
-public class Item{
-    String name;
-    double price;
-    int quantity;
-    String type;
-    static double totalPrice = 0.0;
+enum ItemType {
+    raw,
+    manufactured,
+    imported
+}
+
+public class Item {
+    private String name;
+    private double price;
+    private int quantity;
+    private ItemType type;
 
     //constructor
-    Item(String name, double price, int quantity, String type){
+    Item(String name, double price, int quantity, ItemType type) {
         this.name = name;
         this.price = price;
         this.quantity = quantity;
         this.type = type;
-        calculateTotal();
     }
 
-    double calculateTax(){
-        double tax = 0;
-        if(this.type == "raw"){
-            tax =  (0.125 * this.price);
-        }
-        else if(this.type == "manufactured"){
-            tax = (0.125 * this.price);
-            tax += (0.02 * (tax + this.price));
-        }
-        else{
-            double surcharge = 0;
-            double importDuty = 0;
-            tax = (0.125 * this.price);
-            importDuty = 0.10 * this.price;
-            double temp = tax + importDuty + this.price;
-            if(temp <= 100){
-                surcharge = 5;
-            }
-            if(temp > 100 && temp <= 200){
-                surcharge = 10;
-            }
-            if(temp > 200){
-                surcharge = 0.05 * temp;
-            }
-            tax = surcharge + temp - this.price;
+    double calculateTax() {
+        double tax = (0.125 * this.price);
+        switch (this.type) {
+            case manufactured:
+                tax += (0.02 * (tax + this.price));
+                break;
+            case imported:
+                double surcharge = 5.0;
+                double importDuty = 0.10 * this.price;
+                double addTaxImportPrice = tax + importDuty + this.price;
+                if (addTaxImportPrice > 100 && addTaxImportPrice <= 200) {
+                    surcharge = 10;
+                } else if (addTaxImportPrice > 200) {
+                    surcharge = 0.05 * addTaxImportPrice;
+                }
+                tax = surcharge + addTaxImportPrice - this.price;
+                break;
         }
         return Math.round(tax * 1000) / 1000.0;
     }
 
-    void calculateTotal(){
-        totalPrice += (((double)(this.quantity * this.price)) + (this.calculateTax()));
+    double calculateTotal() {
+        return ((this.calculateTax() + this.price) * this.quantity);
     }
 
-    void display(){
-        double total = ((double)(this.price*this.quantity) + this.calculateTax());
-        System.out.println(this.name+ "\t" + this.price + "\t" + this.quantity
-                + "\t\t" + this.calculateTax() + "\t" + total);
+    void display() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(this.name);
+        sb.append("\t");
+        sb.append(this.price);
+        sb.append("\t");
+        sb.append(this.quantity);
+        sb.append("\t\t");
+        sb.append(this.calculateTax());
+        sb.append("\t");
+        sb.append(this.calculateTotal());
+        System.out.println(sb.toString());
     }
 }
