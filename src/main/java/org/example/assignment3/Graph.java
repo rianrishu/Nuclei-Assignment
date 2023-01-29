@@ -3,32 +3,40 @@ package org.example.assignment3;
 import java.util.*;
 
 public class Graph {
-    Map<Integer, Set<Integer>> parents;
-    Map<Integer, Set<Integer>> children;
+    private Map<Integer, Set<Integer>> parents;
+    private Map<Integer, Set<Integer>> children;
 
-
-    public Graph(){
+    public Graph() {
         parents = new HashMap<>();
         children = new HashMap<>();
     }
-    public void addNode(int nodeId){
+
+    Map<Integer, Set<Integer>> getParents() {
+        return parents;
+    }
+
+    Map<Integer, Set<Integer>> getChildren() {
+        return children;
+    }
+
+    public void addNode(int nodeId) {
         parents.put(nodeId, new HashSet<>());
         children.put(nodeId, new HashSet<>());
     }
 
-    public Set<Integer> getImmediateParent(int nodeId){
+    public Set<Integer> getImmediateParent(int nodeId) {
         return parents.getOrDefault(nodeId, new HashSet<>());
     }
 
-    public Set<Integer> getImmediateChildren(int nodeId){
+    public Set<Integer> getImmediateChildren(int nodeId) {
         return children.getOrDefault(nodeId, new HashSet<>());
     }
 
-    public Set<Integer> getAncestors(int nodeId){
+    public Set<Integer> getAncestors(int nodeId) {
         Set<Integer> ancestor = new HashSet<>();
         Queue<Integer> q = new LinkedList<>();
         q.add(nodeId);
-        while(!q.isEmpty()){
+        while (!q.isEmpty()) {
             int curr = q.poll();
             ancestor.addAll(parents.getOrDefault(curr, new HashSet<>()));
             q.addAll(parents.getOrDefault(curr, new HashSet<>()));
@@ -36,11 +44,11 @@ public class Graph {
         return ancestor;
     }
 
-    public Set<Integer> getDescends(int nodeId){
+    public Set<Integer> getDescends(int nodeId) {
         Set<Integer> descends = new HashSet<>();
         Queue<Integer> q = new LinkedList<>();
         q.add(nodeId);
-        while(!q.isEmpty()){
+        while (!q.isEmpty()) {
             int curr = q.poll();
             descends.addAll(children.getOrDefault(curr, new HashSet<>()));
             q.addAll(children.getOrDefault(curr, new HashSet<>()));
@@ -48,45 +56,44 @@ public class Graph {
         return descends;
     }
 
-    public void deleteDependency(int parentId, int childId){
+    public void deleteDependency(int parentId, int childId) {
         Set<Integer> ps = parents.get(childId);
         Set<Integer> cs = children.get(parentId);
-        if(ps != null){
+        if (ps != null) {
             ps.remove(parentId);
         }
-        if(cs != null){
+        if (cs != null) {
             cs.remove(childId);
         }
     }
 
-    public void deleteNode(int nodeId){
+    public void deleteNode(int nodeId) {
         parents.remove(nodeId);
         children.remove(nodeId);
-        for(var cs : children.values()){
+        for (var cs : children.values()) {
             cs.remove(nodeId);
         }
-        for(var ps : parents.values()){
+        for (var ps : parents.values()) {
             ps.remove(nodeId);
         }
     }
 
-    public void addDependency(int parentId, int childId){
+    public void addDependency(int parentId, int childId) {
         Set<Integer> ancestor = getAncestors(childId);
-        if(!ancestor.contains(parentId)){
+        if (!ancestor.contains(parentId)) {
             Set<Integer> ps = parents.get(childId);
-            if(ps == null){
+            if (ps == null) {
                 ps = new HashSet<>();
                 parents.put(childId, ps);
             }
             ps.add(parentId);
             Set<Integer> cs = children.get(parentId);
-            if(cs == null){
+            if (cs == null) {
                 cs = new HashSet<>();
                 children.put(parentId, cs);
             }
             cs.add(childId);
-        }
-        else{
+        } else {
             throw new IllegalArgumentException("Adding this dependency will create a cycle");
         }
     }

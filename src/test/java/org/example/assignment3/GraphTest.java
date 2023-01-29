@@ -14,8 +14,8 @@ class GraphTest {
         Graph g = new Graph();
         g.addNode(1);
         Set<Integer> se = new HashSet<>();
-        assertEquals(se, g.parents.get(1));
-        assertEquals(se, g.children.get(1));
+        assertEquals(se, g.getParents().get(1));
+        assertEquals(se, g.getChildren().get(1));
     }
 
     @Test
@@ -78,8 +78,8 @@ class GraphTest {
         g.addDependency(1,2);
         g.addDependency(1, 3);
         g.deleteNode(1);
-        assertEquals(se, g.parents.get(2));
-        assertEquals(se, g.parents.get(3));
+        assertEquals(se, g.getParents().get(2));
+        assertEquals(se, g.getParents().get(3));
     }
 
     @Test
@@ -95,7 +95,7 @@ class GraphTest {
         g.addDependency(1, 3);
         g.addDependency(4, 2);
         g.deleteDependency(1,2);
-        assertEquals(se, g.parents.get(2));
+        assertEquals(se, g.getParents().get(2));
     }
   
 }
