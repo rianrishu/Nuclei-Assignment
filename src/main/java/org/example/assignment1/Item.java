@@ -1,9 +1,7 @@
 package org.example.assignment1;
 
 enum ItemType {
-    raw,
-    manufactured,
-    imported
+    raw, manufactured, imported
 }
 
 public class Item {
