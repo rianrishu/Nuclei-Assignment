@@ -37,8 +37,15 @@ public class User implements Serializable {
     }
 
     void display() {
-        System.out.print(this.name + "\t\t" + this.rollno + "\t\t" + this.age + "\t" + this.address + "\t");
-        System.out.println(courses);
-        System.out.println();
+        StringBuilder sb = new StringBuilder();
+        sb.append(this.name);
+        sb.append("\t\t");
+        sb.append(this.rollno);
+        sb.append("\t\t");
+        sb.append(this.age);
+        sb.append("\t");
+        sb.append(this.address);
+        sb.append("\t");
+        System.out.println(sb);
     }
 }
