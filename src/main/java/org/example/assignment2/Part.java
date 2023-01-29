@@ -5,11 +5,9 @@ import java.util.*;
 
 public class Part {
 
-    User takeInput(Set<Integer> rollset) {
-        Scanner sc = new Scanner(System.in);
+    User takeInput(Set<Integer> rollset, Scanner sc) {
         String name, address;
         int rollno, age;
-
         ArrayList<Character> courses = new ArrayList<>();
 
         System.out.print("Enter name : ");
@@ -165,7 +163,7 @@ public class Part {
             System.out.print("Choose an option : ");
             int option = sc.nextInt();
             if (option == 1) {
-                User input = part.takeInput(rollset);
+                User input = part.takeInput(rollset, sc);
                 if (input != null) {
                     user.add(input);
                 }

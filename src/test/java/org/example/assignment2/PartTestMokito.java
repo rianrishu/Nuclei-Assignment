@@ -2,28 +2,32 @@ package org.example.assignment2;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Scanner;
-import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class PartTest {
+class PartTestMokito {
+
+    @Mock
+    private Scanner ms;
+
+    @InjectMocks
+    private Part part;
 
     @Test
-    public void shouldTakeUserInputName() {
-
+    public void testInputMethod() {
         String name = "rishu anand";
         int age = 21;
         String address = "this address";
-        int roll = 21;
+        int roll = 22;
         int nc = 4;
         ArrayList<Character> courses = new ArrayList<>();
         courses.add('A');
@@ -31,18 +35,18 @@ class PartTest {
         courses.add('C');
         courses.add('D');
 
-        String input = name + "\n" + age + "\n" + address + "\n" + roll + "\n" + nc + "\n" + "A" + "\n" + "B" + "\n" + "C" + "\n" + "D" + "\n";
+        when(ms.nextLine()).thenReturn(name, address);
+        when(ms.nextInt()).thenReturn(age, roll, nc);
+        when(ms.next()).thenReturn("A", "B", "C", "D");
 
-        InputStream in1 = new ByteArrayInputStream(input.getBytes());
-        System.setIn((in1));
-        Set<Integer> rollset = new HashSet<>();
+        User result = part.takeInput(new HashSet<>(), ms);
 
-        Scanner sc = new Scanner(System.in);
-        User result = new Part().takeInput(rollset, sc);
         assertEquals(name, result.getName());
         assertEquals(age, result.getAge());
         assertEquals(roll, result.getRollno());
         assertEquals(address, result.getAddress());
         assertEquals(courses, result.getCourses());
+
+
     }
 }
