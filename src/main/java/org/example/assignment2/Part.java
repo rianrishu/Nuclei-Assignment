@@ -4,15 +4,13 @@ import java.io.*;
 import java.util.*;
 
 public class Part {
-    static ArrayList<User> user;
-    static  Set<Integer> rollset;
 
-    static String takeInput(){
+    User takeInput(Set<Integer> rollset) {
         Scanner sc = new Scanner(System.in);
         String name, address;
         int rollno, age;
 
-        ArrayList<Character> courses = new ArrayList<Character>();
+        ArrayList<Character> courses = new ArrayList<>();
 
         System.out.print("Enter name : ");
         name = sc.nextLine();
@@ -29,7 +27,7 @@ public class Part {
 
         System.out.print("Enter number of courses : ");
         int temp = sc.nextInt();
-        if(temp < 4 || temp > 6){
+        if (temp < 4 || temp > 6) {
             System.out.println("Number of courses must be between 4 and 6");
             System.out.print("Enter number of courses : ");
             temp = sc.nextInt();
@@ -37,94 +35,89 @@ public class Part {
 
         sc.nextLine();
         System.out.print("Enter " + temp + " courses : ");
-        for(int i=0; i<temp; i++){
+        for (int i = 0; i < temp; i++) {
             char c = sc.next().charAt(0);
             courses.add(c);
         }
         System.out.println("courses added");
 
-        if(!rollset.contains(rollno)){
-            System.out.println("here i am");
-            User u = new User(name, age, address, rollno, courses);
-            user.add(u);
+        User result = null;
+        if (!rollset.contains(rollno)) {
+            result = new User(name, age, address, rollno, courses);
             rollset.add(rollno);
             System.out.println("User added successfully\n");
+        } else {
+            System.out.println("User already exists\n");
         }
-        else{
-            System.out.println("User already exists\n");;
-        }
-        return name;
-
+        return result;
     }
 
-    static void display(){
+    void display(ArrayList<User> user) {
         System.out.println("Name\t\tRoll No.\tAge\tAddress\t\tCourses");
         System.out.println("---------------------------------------------------------------");
-        for(int i=0; i<user.size(); i++){
-            user.get(i).display();
+        for (var u : user) {
+            u.display();
         }
     }
 
-    static void displayUser(){
+    void displayUser(ArrayList<User> user) {
         Scanner sc = new Scanner(System.in);
         System.out.println("---------------------------User Details------------------------");
-        display();
+        display(user);
         System.out.print("Would you like to sort the result(y/n) : ");
         char option = sc.next().charAt(0);
-        if(option == 'y'){
-            while(true){
+        if (option == 'y') {
+            while (true) {
                 System.out.println("Sort according to : ");
                 System.out.println("1.Name\n2.Roll No.\n3.Age\n4.Address\n5.Exit sorting");
                 System.out.print("Enter option : ");
                 int opt = sc.nextInt();
-                if(opt == 1){
-                    Collections.sort (user, new NameComparator());
-                    display();
+                if (opt == 1) {
+                    user.sort(new NameComparator());
+                    display(user);
                 }
-                if(opt == 2){
-                    Collections.sort (user, new RollComparator());
-                    display();
+                if (opt == 2) {
+                    user.sort(new RollComparator());
+                    display(user);
                 }
-                if(opt == 3){
-                    Collections.sort (user, new AgeComparator());
-                    display();
+                if (opt == 3) {
+                    user.sort(new AgeComparator());
+                    display(user);
                 }
-                if(opt == 4){
-                    Collections.sort (user, new AddressComparator());
-                    display();
+                if (opt == 4) {
+                    user.sort(new AddressComparator());
+                    display(user);
                 }
-                if(opt == 5){
+                if (opt == 5) {
                     break;
                 }
             }
         }
-
     }
 
-    static void deleteUser(){
+    void deleteUser(ArrayList<User> user, Set<Integer> rollset) {
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter Roll No. of user to deleted : ");
         int delroll = sc.nextInt();
-        if(rollset.contains(delroll)){
-            for(var u : user){
-                if(u.rollno == delroll){
+        if (rollset.contains(delroll)) {
+            for (var u : user) {
+                if (u.getRollno() == delroll) {
                     user.remove(u);
                     break;
                 }
             }
             System.out.println("User deleted successfully!!");
-        }
-        else{
+        } else {
             System.out.println("User doesn't exists");
         }
     }
 
-    static void saveDetails() throws IOException{
+    void saveDetails(ArrayList<User> user) throws IOException {
         //Serializing the data
         try {
             FileOutputStream fileout = new FileOutputStream("out.txt");
             ObjectOutputStream out = new ObjectOutputStream(fileout);
-            for(var u : user){
+            for (var u : user) {
                 out.writeObject(u);
             }
             out.close();
@@ -138,27 +131,23 @@ public class Part {
         System.out.println("\nReading the data from file\n");
 
         //Deserializing the data
-        ArrayList<User> fileread = new ArrayList<User>();
-        try{
+        ArrayList<User> fileread = new ArrayList<>();
+        try {
             FileInputStream filein = new FileInputStream("out.txt");
             ObjectInputStream in = new ObjectInputStream(filein);
-            for(int i=0; i<user.size(); i++){
-                User u = (User)in.readObject();
+            for (int i = 0; i < user.size(); i++) {
+                User u = (User) in.readObject();
                 fileread.add(u);
             }
             in.close();
             filein.close();
 
-        }
-        catch(IOException e){
-
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
-        }
-        finally{
+        } finally {
             System.out.println("Name\t\tRoll No.\tAge\tAddress\t\tCourses");
             System.out.println("---------------------------------------------------------------");
-            for(var u : fileread){
+            for (var u : fileread) {
                 u.display();
             }
         }
@@ -166,31 +155,35 @@ public class Part {
     }
 
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        rollset = new HashSet<Integer>();
-        user = new ArrayList<User>();
-        while(true){
+        Set<Integer> rollset = new HashSet<>();
+        ArrayList<User> user = new ArrayList<>();
+        Part part = new Part();
+        while (true) {
             System.out.println("1.Add user details\n2.Display user details\n3.Delete user details\n4.Save user details\n5.Exit\n");
             System.out.print("Choose an option : ");
             int option = sc.nextInt();
-            if(option == 1){
-                takeInput();
+            if (option == 1) {
+                User input = part.takeInput(rollset);
+                if (input != null) {
+                    user.add(input);
+                }
             }
-            if(option == 2){
-                displayUser();
+            if (option == 2) {
+                part.displayUser(user);
             }
-            if(option == 3){
-                deleteUser();
+            if (option == 3) {
+                part.deleteUser(user, rollset);
             }
-            if(option == 4){
+            if (option == 4) {
                 try {
-                    saveDetails();
+                    part.saveDetails(user);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
-            if(option == 5){
+            if (option == 5) {
                 return;
             }
         }
