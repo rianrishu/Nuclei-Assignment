@@ -43,17 +43,10 @@ public class Item {
         return ((this.calculateTax() + this.price) * this.quantity);
     }
 
-    void display() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(this.name);
-        sb.append("\t");
-        sb.append(this.price);
-        sb.append("\t");
-        sb.append(this.quantity);
-        sb.append("\t\t");
-        sb.append(this.calculateTax());
-        sb.append("\t");
-        sb.append(this.calculateTotal());
-        System.out.println(sb.toString());
+    @Override
+    public String toString(){
+        String str = String.format("%s\t%.3f\t%d\t\t%.3f\t%.3f", this.name, this.price, this.quantity,
+                this.calculateTax(), this.calculateTotal());
+        return str;
     }
 }
