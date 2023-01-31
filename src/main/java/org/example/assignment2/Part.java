@@ -54,7 +54,7 @@ public class Part {
         System.out.println("Name\t\tRoll No.\tAge\tAddress\t\tCourses");
         System.out.println("---------------------------------------------------------------");
         for (var u : user) {
-            u.display();
+            System.out.println(u.toString());
         }
     }
 
@@ -146,7 +146,7 @@ public class Part {
             System.out.println("Name\t\tRoll No.\tAge\tAddress\t\tCourses");
             System.out.println("---------------------------------------------------------------");
             for (var u : fileread) {
-                u.display();
+                System.out.println(u.toString());
             }
         }
 

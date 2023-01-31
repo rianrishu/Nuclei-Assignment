@@ -36,16 +36,10 @@ public class User implements Serializable {
         return this.courses;
     }
 
-    void display() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(this.name);
-        sb.append("\t\t");
-        sb.append(this.rollno);
-        sb.append("\t\t");
-        sb.append(this.age);
-        sb.append("\t");
-        sb.append(this.address);
-        sb.append("\t");
-        System.out.println(sb);
+    @Override
+    public String toString() {
+        String str = String.format("%s\t\t%d\t\t%d\t%s\t", this.name, this.rollno,
+                this.age, this.address);
+        return str;
     }
 }
