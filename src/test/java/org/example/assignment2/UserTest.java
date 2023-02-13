@@ -10,11 +10,12 @@ class UserTest {
 
     @Test
     void testOfValueGiven() {
-        ArrayList<Character> courses = new ArrayList<>();
-        courses.add('A');
-        courses.add('B');
-        courses.add('C');
-        courses.add('D');
+        ArrayList<COURSES> courses = new ArrayList<>();
+
+        courses.add(COURSES.A);
+        courses.add(COURSES.B);
+        courses.add(COURSES.C);
+        courses.add(COURSES.D);
         User user = new User("ram", 21, "everywhere", 12, courses);
 
         assertEquals("ram", user.getName());

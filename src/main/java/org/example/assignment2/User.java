@@ -7,6 +7,7 @@ enum COURSES{
     A, B, C, D, E, F
 }
 
+//TODO : change to different serializable
 public class User implements Serializable {
     private String name, address;
     private int rollno, age;
@@ -42,8 +43,16 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        String str = String.format("%s\t\t%d\t\t%d\t%s\t", this.name, this.rollno,
-                this.age, this.address);
+        StringBuilder sb = new StringBuilder();
+        for (var course : this.courses) {
+            sb.append(course.toString());
+            sb.append(", ");
+        }
+        String coursesString = sb.toString();
+        coursesString = coursesString.substring(0, coursesString.length() - 2);
+
+        String str = String.format("%s\t\t%d\t\t%d\t%s\t%s", this.name, this.rollno,
+                this.age, this.address, coursesString);
         return str;
     }
 }

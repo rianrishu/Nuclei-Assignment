@@ -5,7 +5,7 @@ import java.util.*;
 
 public class UserManagement {
 
-    protected User takeInput(Set<Integer> rollset) {
+    protected User takeInput(ArrayList<User> users, Set<Integer> rollset) {
         Scanner sc = new Scanner(System.in);
         String name, address;
         int rollno, age;
@@ -15,13 +15,13 @@ public class UserManagement {
         System.out.print("Enter name : ");
         name = sc.nextLine();
 
-        while(true){
+        while (true) {
             try {
                 System.out.print("Enter age : ");
                 age = sc.nextInt();
                 break;
             } catch (InputMismatchException e) {
-                System.out.println("Please enter age in round off number.(ex: 22, 23");
+                System.out.println("Please enter age in round off number.(ex: 22, 23)");
                 sc.nextLine();
             }
         }
@@ -30,7 +30,7 @@ public class UserManagement {
         System.out.print("Enter address : ");
         address = sc.nextLine();
 
-        while(true){
+        while (true) {
             try {
                 System.out.print("Enter rollno : ");
                 rollno = sc.nextInt();
@@ -42,7 +42,6 @@ public class UserManagement {
         }
 
 
-
         System.out.print("Enter number of courses : ");
         int noOfCourses = sc.nextInt();
         if (noOfCourses < 4 || noOfCourses > 6) {
@@ -52,10 +51,73 @@ public class UserManagement {
         }
 //
 //        sc.nextLine();
-        System.out.print("Enter " + noOfCourses + " courses : ");
-        for (int i = 0; i < noOfCourses; i++) {
-            char c = sc.next().charAt(0);
-            courses.add(c);
+        System.out.println("Choose " + noOfCourses + " courses from ");
+        while(courses.size() < noOfCourses) {
+            System.out.println("Available Courses : ");
+            System.out.println("1.A\n2.B\n3.C\n4.D\n5.E\n6.F");
+            int opt;
+            COURSES course;
+            while (true) {
+                try {
+                    System.out.print("Enter option ex:-(1, 2, 3, 4, 5, or 6): ");
+                    opt = sc.nextInt();
+                    if (opt == 1) {
+                        if (!courses.contains(COURSES.A)) {
+                            courses.add(COURSES.A);
+                        }
+                        else{
+                            System.out.println("This course already is list, Please choose another one");
+                        }
+                        break;
+                    } else if (opt == 2) {
+                        if (!courses.contains(COURSES.B)) {
+                            courses.add(COURSES.B);
+                        }
+                        else{
+                            System.out.println("This course already is list, Please choose another one");
+                        }
+                        break;
+                    } else if (opt == 3) {
+                        if (!courses.contains(COURSES.C)) {
+                            courses.add(COURSES.C);
+                        }
+                        else{
+                            System.out.println("This course already is list, Please choose another one");
+                        }
+                        break;
+                    } else if (opt == 4) {
+                        if (!courses.contains(COURSES.D)) {
+                            courses.add(COURSES.D);
+                        }
+                        else{
+                            System.out.println("This course already is list, Please choose another one");
+                        }
+                        break;
+                    } else if (opt == 5) {
+                        if (!courses.contains(COURSES.E)) {
+                            courses.add(COURSES.E);
+                        }
+                        else{
+                            System.out.println("This course already is list, Please choose another one");
+                        }
+                        break;
+                    } else if (opt == 6) {
+                        if (!courses.contains(COURSES.F)) {
+                            courses.add(COURSES.F);
+                        }
+                        else{
+                            System.out.println("This course already is list, Please choose another one");
+                        }
+                        break;
+                    } else {
+                        System.out.println("Please choose option as 1, 2, 3, 4, 5, or 6");
+                        sc.nextLine();
+                    }
+                } catch (InputMismatchException e) {
+                    System.out.println("Please enter option number in number");
+                    sc.nextLine();
+                }
+            }
         }
         System.out.println("courses added");
 
@@ -65,16 +127,32 @@ public class UserManagement {
             rollset.add(rollno);
             System.out.println("User added successfully\n");
         } else {
-            System.out.println("User already exists\n");
+            System.out.println("User roll number already in list\n");
+            boolean nameCheck = false;
+            boolean addressCheck = false;
+            for (var user : users) {
+                if (user.getName() == name) {
+                    nameCheck = true;
+                } else if (user.getAddress() == address) {
+                    addressCheck = true;
+                }
+            }
+            if (!nameCheck) {
+                System.out.println("User name is not there in list\n");
+            } else if (!addressCheck) {
+                System.out.println("User address is not there in list\n");
+            } else {
+                System.out.println("User already exists\n");
+            }
         }
         return result;
     }
 
-    void display(ArrayList<User> user) {
+    void display(ArrayList<User> users) {
         System.out.println("Name\t\tRoll No.\tAge\tAddress\t\tCourses");
         System.out.println("---------------------------------------------------------------");
-        for (var u : user) {
-            System.out.println(u.toString());
+        for (var user : users) {
+            System.out.println(user.toString());
         }
     }
 
@@ -84,43 +162,54 @@ public class UserManagement {
         display(user);
         System.out.print("Would you like to sort the result(y/n) : ");
         char option = sc.next().charAt(0);
-        if (option == 'y') {
+        if (option == 'y' || option == 'Y') {
             while (true) {
-                System.out.println("Sort according to : ");
-                System.out.println("1.Name\n2.Roll No.\n3.Age\n4.Address\n5.Exit sorting");
-                System.out.print("Enter option : ");
-                int opt = sc.nextInt();
-                if (opt == 1) {
-                    user.sort(new NameComparator());
-                    display(user);
-                }
-                if (opt == 2) {
-                    user.sort(new RollComparator());
-                    display(user);
-                }
-                if (opt == 3) {
-                    user.sort(new AgeComparator());
-                    display(user);
-                }
-                if (opt == 4) {
-                    user.sort(new AddressComparator());
-                    display(user);
-                }
-                if (opt == 5) {
-                    break;
+                while (true) {
+                    try {
+                        System.out.println("Sort according to : ");
+                        System.out.println("1.Name\n2.Roll No.\n3.Age\n4.Address\n5.Exit sorting");
+                        System.out.print("Enter option : ");
+                        int opt = sc.nextInt();
+                        if (opt == 1) {
+                            user.sort(new NameComparator());
+                            display(user);
+                        } else if (opt == 2) {
+                            user.sort(new RollComparator());
+                            display(user);
+                        } else if (opt == 3) {
+                            user.sort(new AgeComparator());
+                            display(user);
+                        } else if (opt == 4) {
+                            user.sort(new AddressComparator());
+                            display(user);
+                        } else if (opt == 5) {
+                            return;
+                        } else {
+                            System.out.println("Please choose option as 1, 2, 3, 4, or 5");
+                            sc.nextLine();
+                        }
+                        break;
+                    } catch (InputMismatchException e) {
+                        System.out.println("Please enter option number in number.");
+                        sc.nextLine();
+                    }
                 }
             }
         }
     }
 
-    void deleteUser(ArrayList<User> user, Set<Integer> rollset) {
+    void deleteUser(ArrayList<User> users, Set<Integer> rollset) {
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter Roll No. of user to deleted : ");
         int delroll = sc.nextInt();
         if (rollset.contains(delroll)) {
-            for (var u : user) {
-                if (u.getRollno() == delroll) {
-                    user.remove(u);
+            for (var user : users) {
+                if (user.getRollno() == delroll) {
+                    System.out.println("Name\t\tRoll No.\tAge\tAddress\t\tCourses");
+                    System.out.println("---------------------------------------------------------------");
+                    System.out.println(user.toString());
+                    users.remove(user);
+                    rollset.remove(delroll);
                     break;
                 }
             }
@@ -134,14 +223,14 @@ public class UserManagement {
         //Serializing the data
         try {
             FileOutputStream fileout = new FileOutputStream("out.txt");
-            ObjectOutputStream out = new ObjectOutputStream(fileout);
+            PrintWriter out = new PrintWriter(fileout);
             for (var u : user) {
-                out.writeObject(u);
+                out.println(u.toString());
             }
             out.close();
             fileout.close();
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            System.out.println("Error File not found");
         }
 
         System.out.println("\nUser details saved to file out.txt\n");
@@ -149,25 +238,18 @@ public class UserManagement {
         System.out.println("\nReading the data from file\n");
 
         //Deserializing the data
-        ArrayList<User> fileread = new ArrayList<>();
         try {
             FileInputStream filein = new FileInputStream("out.txt");
-            ObjectInputStream in = new ObjectInputStream(filein);
-            for (int i = 0; i < user.size(); i++) {
-                User u = (User) in.readObject();
-                fileread.add(u);
+            Scanner in = new Scanner(filein);
+            System.out.println("Name\t\tRoll No.\tAge\tAddress\t\tCourses");
+            System.out.println("---------------------------------------------------------------");
+            while (in.hasNextLine()) {
+                System.out.println(in.nextLine());
             }
             in.close();
             filein.close();
-
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } finally {
-            System.out.println("Name\t\tRoll No.\tAge\tAddress\t\tCourses");
-            System.out.println("---------------------------------------------------------------");
-            for (var u : fileread) {
-                System.out.println(u.toString());
-            }
+        } catch (FileNotFoundException e) {
+            System.out.println("Error File not found");
         }
 
     }
@@ -176,33 +258,32 @@ public class UserManagement {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         Set<Integer> rollset = new HashSet<>();
-        ArrayList<User> user = new ArrayList<>();
-        UserManagement part = new UserManagement();
+        ArrayList<User> users = new ArrayList<>();
+        UserManagement userManagement = new UserManagement();
         while (true) {
             System.out.println("1.Add user details\n2.Display user details\n3.Delete user details\n4.Save user details\n5.Exit\n");
             System.out.print("Choose an option : ");
             int option = sc.nextInt();
             if (option == 1) {
-                User input = part.takeInput(rollset);
+                User input = userManagement.takeInput(users, rollset);
                 if (input != null) {
-                    user.add(input);
+                    users.add(input);
                 }
-            }
-            if (option == 2) {
-                part.displayUser(user);
-            }
-            if (option == 3) {
-                part.deleteUser(user, rollset);
-            }
-            if (option == 4) {
+            } else if (option == 2) {
+                userManagement.displayUser(users);
+            } else if (option == 3) {
+                userManagement.deleteUser(users, rollset);
+            } else if (option == 4) {
                 try {
-                    part.saveDetails(user);
+                    userManagement.saveDetails(users);
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    System.out.println("Error in save user details");
                 }
-            }
-            if (option == 5) {
+            } else if (option == 5) {
                 return;
+            } else {
+                System.out.println("Please choose option as 1, 2, 3, 4, or 5");
+                sc.nextLine();
             }
         }
     }

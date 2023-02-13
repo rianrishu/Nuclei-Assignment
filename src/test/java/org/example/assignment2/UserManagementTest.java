@@ -22,19 +22,19 @@ class UserManagementTest {
         String address = "this address";
         int roll = 21;
         int nc = 4;
-        ArrayList<Character> courses = new ArrayList<>();
-        courses.add('A');
-        courses.add('B');
-        courses.add('C');
-        courses.add('D');
+        ArrayList<COURSES> courses = new ArrayList<>();
+        courses.add(COURSES.A);
+        courses.add(COURSES.B);
+        courses.add(COURSES.C);
+        courses.add(COURSES.D);
 
-        String input = name + "\n" + age + "\n" + address + "\n" + roll + "\n" + nc + "\n" + "A" + "\n" + "B" + "\n" + "C" + "\n" + "D" + "\n";
+        String input = name + "\n" + age + "\n" + address + "\n" + roll + "\n" + nc + "\n" + 1 + "\n" + 2 + "\n" + 3 + "\n" + 4 + "\n";
 
         InputStream in1 = new ByteArrayInputStream(input.getBytes());
         System.setIn((in1));
         Set<Integer> rollset = new HashSet<>();
 
-        User result = new UserManagement().takeInput(rollset);
+        User result = new UserManagement().takeInput(new ArrayList<>(), rollset);
         assertEquals(name, result.getName());
         assertEquals(age, result.getAge());
         assertEquals(roll, result.getRollno());
