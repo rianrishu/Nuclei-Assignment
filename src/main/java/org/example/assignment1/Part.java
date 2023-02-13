@@ -44,14 +44,23 @@ class Part {
 
                 int opt;
                 ItemType type;
-                System.out.print("Enter option ex:-(1, 2 or 3): ");
-                opt = sc.nextInt();
-                if (opt == 1) {
-                    type = ItemType.raw;
-                } else if (opt == 2) {
-                    type = ItemType.manufactured;
-                } else {
-                    type = ItemType.imported;
+                while (true){
+                    System.out.print("Enter option ex:-(1, 2 or 3): ");
+                    opt = sc.nextInt();
+                    if (opt == 1) {
+                        type = ItemType.raw;
+                        break;
+                    } else if (opt == 2) {
+                        type = ItemType.manufactured;
+                        break;
+                    } else if (opt == 3) {
+                        type = ItemType.imported;
+                        break;
+                    }
+                    else{
+                        System.out.println("Please choose option as 1,2 or 3");
+                        sc.nextLine();
+                    }
                 }
 
                 items.add(new Item(name, price, quantity, type));
