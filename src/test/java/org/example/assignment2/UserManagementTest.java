@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 //@ExtendWith(MockitoExtension.class)
-class PartTest {
+class UserManagementTest {
 
     @Test
     public void shouldTakeUserInputName() {
@@ -34,7 +34,7 @@ class PartTest {
         System.setIn((in1));
         Set<Integer> rollset = new HashSet<>();
 
-        User result = new Part().takeInput(rollset);
+        User result = new UserManagement().takeInput(rollset);
         assertEquals(name, result.getName());
         assertEquals(age, result.getAge());
         assertEquals(roll, result.getRollno());

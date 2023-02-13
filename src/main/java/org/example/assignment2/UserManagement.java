@@ -3,39 +3,57 @@ package org.example.assignment2;
 import java.io.*;
 import java.util.*;
 
-public class Part {
+public class UserManagement {
 
-    User takeInput(Set<Integer> rollset) {
+    protected User takeInput(Set<Integer> rollset) {
         Scanner sc = new Scanner(System.in);
         String name, address;
         int rollno, age;
 
-        ArrayList<Character> courses = new ArrayList<>();
+        ArrayList<COURSES> courses = new ArrayList<>();
 
         System.out.print("Enter name : ");
         name = sc.nextLine();
 
-        System.out.print("Enter age : ");
-        age = sc.nextInt();
+        while(true){
+            try {
+                System.out.print("Enter age : ");
+                age = sc.nextInt();
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Please enter age in round off number.(ex: 22, 23");
+                sc.nextLine();
+            }
+        }
 
         sc.nextLine();
         System.out.print("Enter address : ");
         address = sc.nextLine();
 
-        System.out.print("Enter rollno : ");
-        rollno = sc.nextInt();
-
-        System.out.print("Enter number of courses : ");
-        int temp = sc.nextInt();
-        if (temp < 4 || temp > 6) {
-            System.out.println("Number of courses must be between 4 and 6");
-            System.out.print("Enter number of courses : ");
-            temp = sc.nextInt();
+        while(true){
+            try {
+                System.out.print("Enter rollno : ");
+                rollno = sc.nextInt();
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Please enter roll number in number.(ex: 1, 2)");
+                sc.nextLine();
+            }
         }
 
-        sc.nextLine();
-        System.out.print("Enter " + temp + " courses : ");
-        for (int i = 0; i < temp; i++) {
+
+
+        System.out.print("Enter number of courses : ");
+        int noOfCourses = sc.nextInt();
+        if (noOfCourses < 4 || noOfCourses > 6) {
+            System.out.println("Number of courses must be between 4 and 6");
+            System.out.print("Enter number of courses : ");
+            noOfCourses = sc.nextInt();
+        }
+//
+//        sc.nextLine();
+        System.out.print("Enter " + noOfCourses + " courses : ");
+        for (int i = 0; i < noOfCourses; i++) {
             char c = sc.next().charAt(0);
             courses.add(c);
         }
@@ -159,7 +177,7 @@ public class Part {
         Scanner sc = new Scanner(System.in);
         Set<Integer> rollset = new HashSet<>();
         ArrayList<User> user = new ArrayList<>();
-        Part part = new Part();
+        UserManagement part = new UserManagement();
         while (true) {
             System.out.println("1.Add user details\n2.Display user details\n3.Delete user details\n4.Save user details\n5.Exit\n");
             System.out.print("Choose an option : ");

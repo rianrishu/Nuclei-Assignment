@@ -3,12 +3,16 @@ package org.example.assignment2;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+enum COURSES{
+    A, B, C, D, E, F
+}
+
 public class User implements Serializable {
     private String name, address;
     private int rollno, age;
-    private ArrayList<Character> courses;
+    private ArrayList<COURSES> courses;
 
-    User(String name, int age, String address, int rollno, ArrayList<Character> courses) {
+    User(String name, int age, String address, int rollno, ArrayList<COURSES> courses) {
         this.name = name;
         this.age = age;
         this.address = address;
@@ -32,7 +36,7 @@ public class User implements Serializable {
         return this.age;
     }
 
-    ArrayList<Character> getCourses() {
+    ArrayList<COURSES> getCourses() {
         return this.courses;
     }
 
