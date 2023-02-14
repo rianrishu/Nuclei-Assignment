@@ -229,6 +229,7 @@ public class UserManagement {
 
         } catch (FileNotFoundException e) {
             System.out.println("Error File not found");
+            System.out.println("Error Message : " + e.getMessage());
         }
 
         System.out.println("\nUser details saved to file out.txt\n");
@@ -276,6 +277,7 @@ public class UserManagement {
                     userManagement.saveDetails(users);
                 } catch (IOException e) {
                     System.out.println("Error in save user details");
+                    System.out.println("Error Message : " + e.getMessage());
                 }
             } else if (option == 5) {
                 return;
