@@ -2,7 +2,7 @@ package org.example.assignment3;
 
 import java.util.Scanner;
 
-public class Part {
+public class DependencyGraphOperations {
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -17,51 +17,46 @@ public class Part {
                 int nodeId = sc.nextInt();
                 graph.addNode(nodeId);
                 System.out.println("Added");
-            }
-            if (opt == 2) {
+            } else if (opt == 2) {
                 System.out.print("\nEnter nodeId : ");
                 int nodeId = sc.nextInt();
                 System.out.print("\nParent : " + graph.getImmediateParent(nodeId));
-            }
-            if (opt == 3) {
+            } else if (opt == 3) {
                 System.out.print("\nEnter nodeId : ");
                 int nodeId = sc.nextInt();
                 System.out.print("\nChildren : " + graph.getImmediateChildren(nodeId));
-            }
-            if (opt == 4) {
+            } else if (opt == 4) {
                 System.out.print("\nEnter parentId : ");
                 int parentId = sc.nextInt();
                 System.out.print("\nEnter childId : ");
                 int childId = sc.nextInt();
                 graph.addDependency(parentId, childId);
                 System.out.println("Dependency Added");
-            }
-            if (opt == 5) {
+            } else if (opt == 5) {
                 System.out.print("\nEnter parentId : ");
                 int parentId = sc.nextInt();
                 System.out.print("\nEnter childId : ");
                 int childId = sc.nextInt();
                 graph.deleteDependency(parentId, childId);
                 System.out.println("Dependency Deleted");
-            }
-            if (opt == 6) {
+            } else if (opt == 6) {
                 System.out.print("\nEnter nodeId : ");
                 int nodeId = sc.nextInt();
                 System.out.print("\nAncestors : " + graph.getAncestors(nodeId));
-            }
-            if (opt == 7) {
+            } else if (opt == 7) {
                 System.out.print("\nEnter nodeId : ");
                 int nodeId = sc.nextInt();
                 System.out.print("\nDescends : " + graph.getDescends(nodeId));
-            }
-            if (opt == 8) {
+            } else if (opt == 8) {
                 System.out.print("\nEnter nodeId : ");
                 int nodeId = sc.nextInt();
                 graph.deleteNode(nodeId);
                 System.out.print("\nDeleted");
-            }
-            if (opt == 9) {
+            } else if (opt == 9) {
                 return;
+            } else {
+                System.out.println("Print select from given options.(ex: 1, 2, etc)");
+                sc.nextLine();
             }
         }
     }
