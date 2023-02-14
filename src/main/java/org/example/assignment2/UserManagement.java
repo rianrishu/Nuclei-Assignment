@@ -49,8 +49,7 @@ public class UserManagement {
             System.out.print("Enter number of courses : ");
             noOfCourses = sc.nextInt();
         }
-//
-//        sc.nextLine();
+
         System.out.println("Choose " + noOfCourses + " courses from ");
         while(courses.size() < noOfCourses) {
             System.out.println("Available Courses : ");
@@ -221,14 +220,13 @@ public class UserManagement {
 
     void saveDetails(ArrayList<User> user) throws IOException {
         //Serializing the data
-        try {
-            FileOutputStream fileout = new FileOutputStream("out.txt");
-            PrintWriter out = new PrintWriter(fileout);
+        try(FileOutputStream fileout = new FileOutputStream("out.txt");
+            PrintWriter out = new PrintWriter(fileout)){
+
             for (var u : user) {
                 out.println(u.toString());
             }
-            out.close();
-            fileout.close();
+
         } catch (FileNotFoundException e) {
             System.out.println("Error File not found");
         }
@@ -238,18 +236,18 @@ public class UserManagement {
         System.out.println("\nReading the data from file\n");
 
         //Deserializing the data
-        try {
-            FileInputStream filein = new FileInputStream("out.txt");
-            Scanner in = new Scanner(filein);
+        try(FileInputStream filein = new FileInputStream("out.txt");
+            Scanner in = new Scanner(filein)) {
+
             System.out.println("Name\t\tRoll No.\tAge\tAddress\t\tCourses");
             System.out.println("---------------------------------------------------------------");
             while (in.hasNextLine()) {
                 System.out.println(in.nextLine());
             }
-            in.close();
-            filein.close();
+
         } catch (FileNotFoundException e) {
             System.out.println("Error File not found");
+            System.out.println("Error Message : " + e.getMessage());
         }
 
     }
