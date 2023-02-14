@@ -13,6 +13,8 @@ public class Multithreading {
     static final String USER = "root";
     static final String PASS = "nuclei@123";
 
+
+    //used this Method to add entries in the database
     void addEntries() {
         Connection connection = null;
         Statement statement = null;
@@ -53,21 +55,13 @@ public class Multithreading {
 
         ReadCalculate readCalculate = new ReadCalculate(itemList, calculatedTax);
 
-        Thread read = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                readCalculate.read();
-            }
-        });
+        Thread read = new Thread(() -> readCalculate.read());
 
-        Thread calculate = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    readCalculate.calculate();
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
+        Thread calculate = new Thread(() -> {
+            try {
+                readCalculate.calculate();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
             }
         });
 

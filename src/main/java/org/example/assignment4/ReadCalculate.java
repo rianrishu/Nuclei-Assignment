@@ -37,7 +37,6 @@ public class ReadCalculate {
 
             synchronized (this) {
                 while (items.size() > capacity) {
-                    System.out.println("IN read waiting");
                     wait();
                 }
                 while (resultSet.next()) {
@@ -48,7 +47,6 @@ public class ReadCalculate {
                     ItemType etype = ItemType.valueOf(stype);
                     Item item = new Item(name, price, quantity, etype);
                     items.add(item);
-                    System.out.println("reading");
                     notify();
                     Thread.sleep(1);
                 }
@@ -72,10 +70,10 @@ public class ReadCalculate {
             synchronized (this) {
                 while (items.size() == 0 && exit == false) {
                     try {
-                        System.out.println("in calculate waiting");
                         wait();
                     } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
+                        System.out.println("Runtime exception");
+                        System.out.println("Error message : " + e.getMessage());
                     }
                 }
                 if (items.size() != 0) {
@@ -83,7 +81,6 @@ public class ReadCalculate {
                     item.setTax();
                     item.setItemFinalPrice();
                     calculateTax.add(item);
-                    System.out.println("calculating");
                     notify();
                     Thread.sleep(1);
                 } else {
