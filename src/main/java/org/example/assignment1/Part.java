@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 class Part {
     public static void main(String args[]) {
+        ItemFactory itemFactory = ItemFactory.getItemFactoryInstance();
         try (Scanner sc = new Scanner(System.in)) {
             char addMore;
             ArrayList<Item> items = new ArrayList<>();
@@ -63,7 +64,7 @@ class Part {
                     }
                 }
 
-                items.add(new Item(name, price, quantity, type));
+                items.add(itemFactory.createItem(name, price, quantity, type));
                 System.out.println("Item Added !!");
 
                 //continue to add more items
