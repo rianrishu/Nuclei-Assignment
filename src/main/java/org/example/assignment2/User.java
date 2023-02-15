@@ -7,7 +7,6 @@ enum COURSES{
     A, B, C, D, E, F
 }
 
-//TODO : change to different serializable
 public class User implements Serializable {
     private String name, address;
     private int rollno, age;
@@ -39,6 +38,26 @@ public class User implements Serializable {
 
     ArrayList<COURSES> getCourses() {
         return this.courses;
+    }
+
+    void setName(String name){
+        this.name = name;
+    }
+
+    void setAddress(String address){
+        this.address = address;
+    }
+
+    void setRollno(int rollno){
+        this.rollno = rollno;
+    }
+
+    void setAge(int age){
+        this.age = age;
+    }
+
+    void setCourses(ArrayList<COURSES> courses){
+        this.courses = courses;
     }
 
     @Override

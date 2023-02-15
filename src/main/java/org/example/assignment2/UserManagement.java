@@ -1,14 +1,28 @@
 package org.example.assignment2;
 
+import com.google.gson.Gson;
+
 import java.io.*;
 import java.util.*;
 
 public class UserManagement {
 
+    private static UserManagement instance = new UserManagement();
+
+    private UserManagement() {
+
+    }
+
+    public static UserManagement getInstance() {
+        return instance;
+    }
+
     protected User takeInput(ArrayList<User> users, Set<Integer> rollset) {
         Scanner sc = new Scanner(System.in);
-        String name, address;
-        int rollno, age;
+        String name;
+        String address;
+        int rollno;
+        int age;
 
         ArrayList<COURSES> courses = new ArrayList<>();
 
@@ -51,11 +65,10 @@ public class UserManagement {
         }
 
         System.out.println("Choose " + noOfCourses + " courses from ");
-        while(courses.size() < noOfCourses) {
+        while (courses.size() < noOfCourses) {
             System.out.println("Available Courses : ");
             System.out.println("1.A\n2.B\n3.C\n4.D\n5.E\n6.F");
             int opt;
-            COURSES course;
             while (true) {
                 try {
                     System.out.print("Enter option ex:-(1, 2, 3, 4, 5, or 6): ");
@@ -63,48 +76,42 @@ public class UserManagement {
                     if (opt == 1) {
                         if (!courses.contains(COURSES.A)) {
                             courses.add(COURSES.A);
-                        }
-                        else{
+                        } else {
                             System.out.println("This course already is list, Please choose another one");
                         }
                         break;
                     } else if (opt == 2) {
                         if (!courses.contains(COURSES.B)) {
                             courses.add(COURSES.B);
-                        }
-                        else{
+                        } else {
                             System.out.println("This course already is list, Please choose another one");
                         }
                         break;
                     } else if (opt == 3) {
                         if (!courses.contains(COURSES.C)) {
                             courses.add(COURSES.C);
-                        }
-                        else{
+                        } else {
                             System.out.println("This course already is list, Please choose another one");
                         }
                         break;
                     } else if (opt == 4) {
                         if (!courses.contains(COURSES.D)) {
                             courses.add(COURSES.D);
-                        }
-                        else{
+                        } else {
                             System.out.println("This course already is list, Please choose another one");
                         }
                         break;
                     } else if (opt == 5) {
                         if (!courses.contains(COURSES.E)) {
                             courses.add(COURSES.E);
-                        }
-                        else{
+                        } else {
                             System.out.println("This course already is list, Please choose another one");
                         }
                         break;
                     } else if (opt == 6) {
                         if (!courses.contains(COURSES.F)) {
                             courses.add(COURSES.F);
-                        }
-                        else{
+                        } else {
                             System.out.println("This course already is list, Please choose another one");
                         }
                         break;
@@ -127,18 +134,18 @@ public class UserManagement {
             System.out.println("User added successfully\n");
         } else {
             System.out.println("User roll number already in list\n");
-            boolean nameCheck = false;
-            boolean addressCheck = false;
+            boolean isNameInList = false;
+            boolean isAddressInList = false;
             for (var user : users) {
                 if (user.getName() == name) {
-                    nameCheck = true;
+                    isNameInList = true;
                 } else if (user.getAddress() == address) {
-                    addressCheck = true;
+                    isAddressInList = true;
                 }
             }
-            if (!nameCheck) {
+            if (!isNameInList) {
                 System.out.println("User name is not there in list\n");
-            } else if (!addressCheck) {
+            } else if (!isAddressInList) {
                 System.out.println("User address is not there in list\n");
             } else {
                 System.out.println("User already exists\n");
@@ -155,10 +162,14 @@ public class UserManagement {
         }
     }
 
-    void displayUser(ArrayList<User> user) {
+    void displayUser(ArrayList<User> users) {
+        if (users.size() == 0){
+            System.out.println("User list is empty, nothing to display");
+            return;
+        }
         Scanner sc = new Scanner(System.in);
         System.out.println("---------------------------User Details------------------------");
-        display(user);
+        display(users);
         System.out.print("Would you like to sort the result(y/n) : ");
         char option = sc.next().charAt(0);
         if (option == 'y' || option == 'Y') {
@@ -170,17 +181,17 @@ public class UserManagement {
                         System.out.print("Enter option : ");
                         int opt = sc.nextInt();
                         if (opt == 1) {
-                            user.sort(new NameComparator());
-                            display(user);
+                            users.sort(new NameComparator());
+                            display(users);
                         } else if (opt == 2) {
-                            user.sort(new RollComparator());
-                            display(user);
+                            users.sort(new RollComparator());
+                            display(users);
                         } else if (opt == 3) {
-                            user.sort(new AgeComparator());
-                            display(user);
+                            users.sort(new AgeComparator());
+                            display(users);
                         } else if (opt == 4) {
-                            user.sort(new AddressComparator());
-                            display(user);
+                            users.sort(new AddressComparator());
+                            display(users);
                         } else if (opt == 5) {
                             return;
                         } else {
@@ -218,13 +229,13 @@ public class UserManagement {
         }
     }
 
-    void saveDetails(ArrayList<User> user) throws IOException {
+    void saveDetails(ArrayList<User> users) throws IOException {
         //Serializing the data
-        try(FileOutputStream fileout = new FileOutputStream("out.txt");
-            PrintWriter out = new PrintWriter(fileout)){
+        try (FileOutputStream fileout = new FileOutputStream("out.txt");
+             PrintWriter out = new PrintWriter(fileout)) {
 
-            for (var u : user) {
-                out.println(u.toString());
+            for (var user : users) {
+                out.println(user.toString());
             }
 
         } catch (FileNotFoundException e) {
@@ -237,8 +248,8 @@ public class UserManagement {
         System.out.println("\nReading the data from file\n");
 
         //Deserializing the data
-        try(FileInputStream filein = new FileInputStream("out.txt");
-            Scanner in = new Scanner(filein)) {
+        try (FileInputStream filein = new FileInputStream("out.txt");
+             Scanner in = new Scanner(filein)) {
 
             System.out.println("Name\t\tRoll No.\tAge\tAddress\t\tCourses");
             System.out.println("---------------------------------------------------------------");
@@ -251,6 +262,18 @@ public class UserManagement {
             System.out.println("Error Message : " + e.getMessage());
         }
 
+        System.out.println("Using JSON parser");
+
+        try (FileOutputStream fileout = new FileOutputStream("out.json");
+             PrintWriter out = new PrintWriter(fileout)) {
+
+            out.println(new Gson().toJson(users));
+
+
+        } catch (FileNotFoundException e) {
+            System.out.println("Error File not found");
+            System.out.println("Error Message : " + e.getMessage());
+        }
     }
 
 
@@ -258,7 +281,7 @@ public class UserManagement {
         Scanner sc = new Scanner(System.in);
         Set<Integer> rollset = new HashSet<>();
         ArrayList<User> users = new ArrayList<>();
-        UserManagement userManagement = new UserManagement();
+        UserManagement userManagement = UserManagement.getInstance();
         while (true) {
             System.out.println("1.Add user details\n2.Display user details\n3.Delete user details\n4.Save user details\n5.Exit\n");
             System.out.print("Choose an option : ");
