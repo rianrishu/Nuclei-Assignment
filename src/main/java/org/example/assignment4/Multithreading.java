@@ -50,28 +50,28 @@ public class Multithreading {
     }
 
     public static void main(String[] args) throws InterruptedException {
-        ArrayList<Item> itemList = new ArrayList<>();
-        ArrayList<Item> calculatedTax = new ArrayList<>();
+        ArrayList<Item> items = new ArrayList<>();
+        ArrayList<Item> calculatedItemsTax = new ArrayList<>();
 
-        ReadCalculate readCalculate = new ReadCalculate(itemList, calculatedTax);
+        ReadDBCalculateTax readCalculate = new ReadDBCalculateTax(items, calculatedItemsTax);
 
-        Thread read = new Thread(() -> readCalculate.read());
+        Thread readItemsThread = new Thread(() -> readCalculate.readItems());
 
-        Thread calculate = new Thread(() -> {
+        Thread calculateTaxThread = new Thread(() -> {
             try {
-                readCalculate.calculate();
+                readCalculate.calculateTax();
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
         });
 
-        read.start();
-        calculate.start();
+        readItemsThread.start();
+        calculateTaxThread.start();
 
-        read.join();
-        calculate.join();
+        readItemsThread.join();
+        calculateTaxThread.join();
 
-        for (var item : calculatedTax) {
+        for (var item : calculatedItemsTax) {
             System.out.println(item.toString());
         }
     }

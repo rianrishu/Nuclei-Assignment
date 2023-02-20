@@ -3,7 +3,7 @@ package org.example.assignment4;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class ReadCalculate {
+public class ReadDBCalculateTax {
 
     private static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
     private static final String DB_URL = "jdbc:mysql://localhost/assignment4?characterEncoding=UTF-8";
@@ -12,19 +12,19 @@ public class ReadCalculate {
     private ArrayList<Item> items;
     private int capacity = 100;
 
-    private ArrayList<Item> calculateTax;
+    private ArrayList<Item> calculateItemsTax;
 
     private boolean exit = false;
 
-    ReadCalculate(ArrayList<Item> items, ArrayList<Item> calculateTax) {
+    ReadDBCalculateTax(ArrayList<Item> items, ArrayList<Item> calculateItemsTax) {
         this.items = items;
-        this.calculateTax = calculateTax;
+        this.calculateItemsTax = calculateItemsTax;
     }
 
-    public void read() {
+    public void readItems() {
 
-        Connection connection = null;
-        Statement statement = null;
+        Connection connection;
+        Statement statement;
 
         try {
             System.out.println("Reading from Database");
@@ -65,7 +65,7 @@ public class ReadCalculate {
         }
     }
 
-    public void calculate() throws InterruptedException {
+    public void calculateTax() throws InterruptedException {
         while (true) {
             synchronized (this) {
                 while (items.size() == 0 && exit == false) {
@@ -80,7 +80,7 @@ public class ReadCalculate {
                     Item item = items.remove(0);
                     item.setTax();
                     item.setItemFinalPrice();
-                    calculateTax.add(item);
+                    calculateItemsTax.add(item);
                     notify();
                     Thread.sleep(1);
                 } else {
