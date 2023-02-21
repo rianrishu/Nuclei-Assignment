@@ -34,65 +34,65 @@ public class Graph {
 
     public Set<Integer> getAncestors(int nodeId) {
         Set<Integer> ancestor = new HashSet<>();
-        Queue<Integer> q = new LinkedList<>();
-        q.add(nodeId);
-        while (!q.isEmpty()) {
-            int curr = q.poll();
+        Queue<Integer> queueNodeId = new LinkedList<>();
+        queueNodeId.add(nodeId);
+        while (!queueNodeId.isEmpty()) {
+            int curr = queueNodeId.poll();
             ancestor.addAll(parents.getOrDefault(curr, new HashSet<>()));
-            q.addAll(parents.getOrDefault(curr, new HashSet<>()));
+            queueNodeId.addAll(parents.getOrDefault(curr, new HashSet<>()));
         }
         return ancestor;
     }
 
     public Set<Integer> getDescends(int nodeId) {
         Set<Integer> descends = new HashSet<>();
-        Queue<Integer> q = new LinkedList<>();
-        q.add(nodeId);
-        while (!q.isEmpty()) {
-            int curr = q.poll();
+        Queue<Integer> queueNodeId = new LinkedList<>();
+        queueNodeId.add(nodeId);
+        while (!queueNodeId.isEmpty()) {
+            int curr = queueNodeId.poll();
             descends.addAll(children.getOrDefault(curr, new HashSet<>()));
-            q.addAll(children.getOrDefault(curr, new HashSet<>()));
+            queueNodeId.addAll(children.getOrDefault(curr, new HashSet<>()));
         }
         return descends;
     }
 
     public void deleteDependency(int parentId, int childId) {
-        Set<Integer> ps = parents.get(childId);
-        Set<Integer> cs = children.get(parentId);
-        if (ps != null) {
-            ps.remove(parentId);
+        Set<Integer> parentSet = parents.get(childId);
+        Set<Integer> childrenset = children.get(parentId);
+        if (parentSet != null) {
+            parentSet.remove(parentId);
         }
-        if (cs != null) {
-            cs.remove(childId);
+        if (childrenset != null) {
+            childrenset.remove(childId);
         }
     }
 
     public void deleteNode(int nodeId) {
         parents.remove(nodeId);
         children.remove(nodeId);
-        for (var cs : children.values()) {
-            cs.remove(nodeId);
+        for (var child : children.values()) {
+            child.remove(nodeId);
         }
-        for (var ps : parents.values()) {
-            ps.remove(nodeId);
+        for (var parent : parents.values()) {
+            parent.remove(nodeId);
         }
     }
 
     public void addDependency(int parentId, int childId) throws IllegalArgumentException{
         Set<Integer> ancestor = getAncestors(childId);
         if (!ancestor.contains(parentId)) {
-            Set<Integer> ps = parents.get(childId);
-            if (ps == null) {
-                ps = new HashSet<>();
-                parents.put(childId, ps);
+            Set<Integer> parentSet = parents.get(childId);
+            if (parentSet == null) {
+                parentSet = new HashSet<>();
+                parents.put(childId, parentSet);
             }
-            ps.add(parentId);
-            Set<Integer> cs = children.get(parentId);
-            if (cs == null) {
-                cs = new HashSet<>();
-                children.put(parentId, cs);
+            parentSet.add(parentId);
+            Set<Integer> childrenSet = children.get(parentId);
+            if (childrenSet == null) {
+                childrenSet = new HashSet<>();
+                children.put(parentId, childrenSet);
             }
-            cs.add(childId);
+            childrenSet.add(childId);
         } else {
             throw new IllegalArgumentException("Adding this dependency will create a cycle");
         }
