@@ -11,91 +11,91 @@ class GraphTest {
 
     @Test
     void testaddNode(){
-        Graph g = new Graph();
-        g.addNode(1);
+        Graph graphObject = new Graph();
+        graphObject.addNode(1);
         Set<Integer> se = new HashSet<>();
-        assertEquals(se, g.getParents().get(1));
-        assertEquals(se, g.getChildren().get(1));
+        assertEquals(se, graphObject.getParents().get(1));
+        assertEquals(se, graphObject.getChildren().get(1));
     }
 
     @Test
     void testgetImmediateParent(){
-        Graph g = new Graph();
-        g.addNode(1);
-        g.addNode(2);
+        Graph graphObject = new Graph();
+        graphObject.addNode(1);
+        graphObject.addNode(2);
         Set<Integer> se = new HashSet<>();
         se.add(1);
-        g.addDependency(1,2);
-        assertEquals(se, g.getImmediateParent(2));
+        graphObject.addDependency(1,2);
+        assertEquals(se, graphObject.getImmediateParent(2));
     }
 
     @Test
     void testgetImmediateChildren(){
-        Graph g = new Graph();
-        g.addNode(1);
-        g.addNode(2);
+        Graph graphObject = new Graph();
+        graphObject.addNode(1);
+        graphObject.addNode(2);
         Set<Integer> se = new HashSet<>();
         se.add(2);
-        g.addDependency(1,2);
-        assertEquals(se, g.getImmediateChildren(1));
+        graphObject.addDependency(1,2);
+        assertEquals(se, graphObject.getImmediateChildren(1));
     }
 
     @Test
     void testgetAncestors(){
-        Graph g = new Graph();
-        g.addNode(1);
-        g.addNode(3);
-        g.addNode(2);
-        Set<Integer> se = new HashSet<>();
-        se.add(1);
-        se.add(3);
-        g.addDependency(1,2);
-        g.addDependency(3, 2);
-        assertEquals(se, g.getAncestors(2));
+        Graph graphObject = new Graph();
+        graphObject.addNode(1);
+        graphObject.addNode(3);
+        graphObject.addNode(2);
+        Set<Integer> expectedResultSet = new HashSet<>();
+        expectedResultSet.add(1);
+        expectedResultSet.add(3);
+        graphObject.addDependency(1,2);
+        graphObject.addDependency(3, 2);
+        assertEquals(expectedResultSet, graphObject.getAncestors(2));
     }
 
     @Test
     void testgetDescends(){
-        Graph g = new Graph();
-        g.addNode(1);
-        g.addNode(3);
-        g.addNode(2);
-        Set<Integer> se = new HashSet<>();
-        se.add(2);
-        se.add(3);
-        g.addDependency(1,2);
-        g.addDependency(1, 3);
-        assertEquals(se, g.getDescends(1));
+        Graph graphObject = new Graph();
+        graphObject.addNode(1);
+        graphObject.addNode(3);
+        graphObject.addNode(2);
+        Set<Integer> expectedResultSet = new HashSet<>();
+        expectedResultSet.add(2);
+        expectedResultSet.add(3);
+        graphObject.addDependency(1,2);
+        graphObject.addDependency(1, 3);
+        assertEquals(expectedResultSet, graphObject.getDescends(1));
     }
 
     @Test
     void testdeleteNode(){
-        Graph g = new Graph();
-        g.addNode(1);
-        g.addNode(3);
-        g.addNode(2);
-        Set<Integer> se = new HashSet<>();
-        g.addDependency(1,2);
-        g.addDependency(1, 3);
-        g.deleteNode(1);
-        assertEquals(se, g.getParents().get(2));
-        assertEquals(se, g.getParents().get(3));
+        Graph graphObject = new Graph();
+        graphObject.addNode(1);
+        graphObject.addNode(3);
+        graphObject.addNode(2);
+        Set<Integer> expectedResultSet = new HashSet<>();
+        graphObject.addDependency(1,2);
+        graphObject.addDependency(1, 3);
+        graphObject.deleteNode(1);
+        assertEquals(expectedResultSet, graphObject.getParents().get(2));
+        assertEquals(expectedResultSet, graphObject.getParents().get(3));
     }
 
     @Test
     void testdeleteDependency(){
-        Graph g = new Graph();
-        g.addNode(1);
-        g.addNode(2);
-        g.addNode(3);
-        g.addNode(4);
-        Set<Integer> se = new HashSet<>();
-        se.add(4);
-        g.addDependency(1,2);
-        g.addDependency(1, 3);
-        g.addDependency(4, 2);
-        g.deleteDependency(1,2);
-        assertEquals(se, g.getParents().get(2));
+        Graph graphObject = new Graph();
+        graphObject.addNode(1);
+        graphObject.addNode(2);
+        graphObject.addNode(3);
+        graphObject.addNode(4);
+        Set<Integer> expectedResultSet = new HashSet<>();
+        expectedResultSet.add(4);
+        graphObject.addDependency(1,2);
+        graphObject.addDependency(1, 3);
+        graphObject.addDependency(4, 2);
+        graphObject.deleteDependency(1,2);
+        assertEquals(expectedResultSet, graphObject.getParents().get(2));
     }
   
 }

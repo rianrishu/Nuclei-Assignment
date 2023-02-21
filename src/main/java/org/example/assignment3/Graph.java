@@ -11,11 +11,11 @@ public class Graph {
         children = new HashMap<>();
     }
 
-    Map<Integer, Set<Integer>> getParents() {
+    public Map<Integer, Set<Integer>> getParents() {
         return parents;
     }
 
-    Map<Integer, Set<Integer>> getChildren() {
+    public Map<Integer, Set<Integer>> getChildren() {
         return children;
     }
 
@@ -78,7 +78,7 @@ public class Graph {
         }
     }
 
-    public void addDependency(int parentId, int childId) {
+    public void addDependency(int parentId, int childId) throws IllegalArgumentException{
         Set<Integer> ancestor = getAncestors(childId);
         if (!ancestor.contains(parentId)) {
             Set<Integer> ps = parents.get(childId);
