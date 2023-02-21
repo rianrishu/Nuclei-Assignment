@@ -17,8 +17,13 @@ public class UserManagement {
         return instance;
     }
 
-    protected User takeInput(ArrayList<User> users, Set<Integer> rollset) {
+
+    protected User takeInput(ArrayList<User> users, Set<Integer> rollset){
         Scanner sc = new Scanner(System.in);
+        return takeInput(users, rollset, sc);
+    }
+
+    protected User takeInput(ArrayList<User> users, Set<Integer> rollset, Scanner sc) {
         String name;
         String address;
         int rollno;

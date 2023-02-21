@@ -47,7 +47,6 @@ class UserManagementTest {
     }
 
 
-    //TODO : Error in generating this test case
     @Test
     public void testForTypeMistmatchInput() {
         String name = "rishu anand";
