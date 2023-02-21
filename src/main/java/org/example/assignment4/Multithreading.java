@@ -42,14 +42,12 @@ public class Multithreading {
             statement.close();
             connection.close();
 
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        } catch (ClassNotFoundException | SQLException e) {
+            System.out.println("Error message : " + e.getMessage());
         }
     }
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
         ArrayList<Item> items = new ArrayList<>();
         ArrayList<Item> calculatedItemsTax = new ArrayList<>();
 
@@ -61,15 +59,19 @@ public class Multithreading {
             try {
                 readCalculate.calculateTax();
             } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+                System.out.println("Error message : " + e.getMessage());
             }
         });
 
         readItemsThread.start();
         calculateTaxThread.start();
 
-        readItemsThread.join();
-        calculateTaxThread.join();
+        try {
+            readItemsThread.join();
+            calculateTaxThread.join();
+        } catch (InterruptedException e){
+            System.out.println("Error message : " + e.getMessage());
+        }
 
         for (var item : calculatedItemsTax) {
             System.out.println(item.toString());

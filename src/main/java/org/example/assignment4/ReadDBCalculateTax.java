@@ -54,14 +54,8 @@ public class ReadDBCalculateTax {
             exit = true;
             statement.close();
             connection.close();
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalArgumentException e) {
-            throw new RuntimeException(e);
+        } catch (ClassNotFoundException | SQLException | InterruptedException | IllegalArgumentException e) {
+            System.out.println("Error Message : " + e.getMessage());
         }
     }
 
